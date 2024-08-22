@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+
+class MyHomePage extends StatelessWidget {
+  final List<Map<String, String>> contacts = [
+    {'name': 'Devan', 'profilePic': 'petti/bwm.jpeg', 'details': 'STUDENT'},
+    {'name': 'Akash', 'profilePic': 'petti/bcimg.jpg', 'details': 'STUDENT'},
+    {'name': 'Adithya', 'profilePic': 'petti/peacee.jpg', 'details': 'STUDENT'},
+    {'name': 'Abid', 'profilePic': 'petti/fam.jpg', 'details': 'STUDENT'},
+    {'name': 'Devaraj', 'profilePic': 'petti/goku2.jpg', 'details': 'TEACHER'},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('FLUTTER COMPANY'),
+      ),
+      body: ListView.builder(
+        itemCount: contacts.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfilePage(
+                      name: contacts[index]['name']!,
+                      profilePic: contacts[index]['profilePic']!,
+                      details: contacts[index]['details']!,
+                    ),
+                  ),
+                );
+              },
+              child: Hero(
+                tag: contacts[index]['profilePic']!,
+                child: CircleAvatar(
+                  backgroundImage: AssetImage(contacts[index]['profilePic']!),
+                ),
+              ),
+            ),
+            title: Text(contacts[index]['name']!),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  final String name;
+  final String profilePic;
+  final String details;
+
+  ProfilePage({required this.name, required this.profilePic, required this.details});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(name),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Hero(
+              tag: profilePic,
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 2,
+                width: double.infinity, 
+                child: Image.asset(
+                  profilePic,
+                  fit: BoxFit.cover, 
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              name,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Text(
+              details,
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
